@@ -1,0 +1,83 @@
+﻿@model todolist.Models.TaskItem
+
+<h1>@Model.Title</h1>
+
+<p>Due Date: @Model.DueDate.ToShortDateString()</p>
+<p>Priority: @Model.Priority</p>
+<p>Category: @ViewBag.CategoryName</p>
+<p>Completed: @(Model.IsCompleted ? "Yes" : "No")</p>
+
+<h5>Comments</h5>
+
+
+
+<ul>
+    @foreach (var comment in Model.Comments)
+    {
+        <li>
+            <p>@comment.CommentText</p>
+            <small>@comment.CreatedAt.ToString("g")</small>
+            <form asp-action="EditComment" method="get" style="display:inline;">
+                <input type="hidden" name="commentId" value="@comment.CommentId" />
+                <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+            </form>
+
+           >
+            <form asp-action="DeleteComment" method="post" style="display:inline;">
+                <input type="hidden" name="commentId" value="@comment.CommentId" />
+                <input type="hidden" name="taskId" value="@Model.Id" />
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+    }
+</ul>
+
+<form asp-action="AddComment" method="post">
+    <input type="hidden" name="taskId" value="@Model.Id" />
+    <textarea name="commentText" required></textarea>
+    <button type="submit">Add Comment</button>
+</form>
+
+
+
+
+<h5>Documents</h5>
+<ul>
+    @if (Model.Documents != null && Model.Documents.Any())
+    {
+        @foreach (var doc in Model.Documents)
+        {
+            <li>
+                <a href="@doc.DocumentPath" target="_blank">View Document</a>
+                <small>Uploaded on: @doc.UploadedAt.ToString("g")</small>
+
+                <!-- Delete Document Form -->
+                <form asp-action="DeleteDocument" method="post" style="display:inline;">
+                    <input type="hidden" name="documentId" value="@doc.DocumentId" />
+                    <input type="hidden" name="taskId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </li>
+        }
+    }
+    else
+    {
+        <p>No documents available.</p>
+    }
+</ul>
+
+
+
+<h5>Upload Document</h5>
+<form asp-action="UploadDocument" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="taskId" value="@Model.Id" />
+    <input type="file" name="document" />
+    <button type="submit">Upload</button>
+</form>
+
+<p>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+<a asp-action="Index" asp-route-id="@Model.Id" class="btn btn-secondary">Back to List</a>
+
+</p>

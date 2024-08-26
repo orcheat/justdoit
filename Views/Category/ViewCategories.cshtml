@@ -1,0 +1,32 @@
+﻿@model IEnumerable<todolist.Models.Category>
+
+<h2>Categories</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>
+                    <a href="@Url.Action("EditCategory", new { id = category.Id })" class="btn btn-primary">Edit</a>
+                    <form action="@Url.Action("DeleteCategory", new { id = category.Id })" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<a asp-controller="Task" asp-action="Index" class="btn btn-secondary">Cancel</a>
+<div class="mb-3">
+    <a asp-controller="Category" asp-action="Create" class="btn btn-secondary">Add More Categories</a>
+</div>

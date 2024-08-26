@@ -1,0 +1,13 @@
+﻿@model todolist.Models.Category
+
+<h1>Create New Category</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Task" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

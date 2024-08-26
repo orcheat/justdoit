@@ -1,0 +1,19 @@
+﻿@model todolist.Models.TaskItem
+
+
+
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <h1>Delete Contact</h1>
+
+    <p>Are you sure you want to delete this contact?</p>
+    <div>
+        <h2>@Model.Title</h2>
+        <p>Due Date: @Model.DueDate.ToShortDateString()</p>
+        <p>Priority: @Model.Priority</p>
+        <p>Category: @Model.Category</p>
+    </div>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

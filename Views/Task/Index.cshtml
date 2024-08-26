@@ -1,0 +1,66 @@
+﻿@model IEnumerable<todolist.Models.TaskItem>
+
+@{
+    var selectedCategory = ViewBag.SelectedCategory as string ?? "All";
+    var categories = new List<string> { "All", "Personal", "Work", "Health", "Grocery", "Others" };
+    string options = "";
+
+    foreach (var category in categories)
+    {
+        var isSelected = category == selectedCategory ? " selected=\"selected\"" : "";
+        options += $"<option value=\"{category}\"{isSelected}>{category}</option>";
+    }
+}
+
+<h1>Task List</h1>
+
+<!-- Create Task Button -->
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create New Task</a>
+</div>
+
+
+
+<a asp-controller="Category" asp-action="ViewCategories" class="btn btn-secondary">View Categories</a>
+
+<a asp-controller="Account" asp-action="ViewUsers" class="btn btn-secondary">View Users</a>
+
+<!-- Filter by Category -->
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Category</th>
+            <th>Assigned To</th>
+            <th>Completed</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.DueDate.ToShortDateString()</td>
+                <td>@item.Priority</td>
+                <td>@item.Category</td>
+                <td>@item.UserName</td>
+                <td>@(item.IsCompleted ? "Yes" : "No")</td>
+                
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Account" asp-action="Login" class="btn btn-secondary">Logout</a>
+</div>
